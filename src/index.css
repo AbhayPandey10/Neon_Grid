@@ -1,0 +1,177 @@
+@import "tailwindcss";
+
+@layer base {
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  body {
+    background-color: #050508;
+    color: #c0c8d8;
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 15px;
+    min-height: 100vh;
+    overflow-x: hidden;
+    cursor: crosshair;
+  }
+
+  /* Scanline overlay */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      rgba(0, 0, 0, 0.15) 2px,
+      rgba(0, 0, 0, 0.15) 4px
+    );
+    pointer-events: none;
+    z-index: 9999;
+  }
+}
+
+@layer utilities {
+  /* Custom scrollbar */
+  .feed-scroll {
+    scrollbar-width: thin;
+    scrollbar-color: #252540 transparent;
+  }
+  .feed-scroll::-webkit-scrollbar {
+    width: 4px;
+  }
+  .feed-scroll::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  .feed-scroll::-webkit-scrollbar-thumb {
+    background: #252540;
+    border-radius: 2px;
+  }
+
+  /* Glow utilities */
+  .glow-blue { text-shadow: 0 0 12px rgba(0, 212, 255, 0.6); }
+  .glow-green { text-shadow: 0 0 12px rgba(0, 255, 136, 0.6); }
+  .glow-yellow { text-shadow: 0 0 12px rgba(255, 204, 0, 0.6); }
+  .glow-pink { text-shadow: 0 0 12px rgba(255, 0, 144, 0.6); }
+  .glow-red { text-shadow: 0 0 8px rgba(255, 34, 68, 0.8); }
+
+  .box-glow-blue { box-shadow: 0 0 8px #00d4ff; }
+  .box-glow-green { box-shadow: 0 0 8px #00ff88; }
+  .box-glow-yellow { box-shadow: 0 0 8px #ffcc00; }
+  .box-glow-pink { box-shadow: 0 0 8px #ff0090; }
+  .box-glow-red { box-shadow: 0 0 8px #ff2244; }
+
+  /* Panel top-gradient accent line */
+  .panel-accent::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, #00d4ff, transparent);
+    opacity: 0.5;
+  }
+
+  /* Radar sweep */
+  .radar-sweep {
+    background: conic-gradient(from 0deg, transparent 75%, rgba(0, 212, 255, 0.25) 100%);
+    transform-origin: 0 0;
+  }
+
+  /* Critical feed flash */
+  .feed-crit-flash {
+    animation: crit-flash 1.5s infinite alternate;
+  }
+
+  /* Zone clip paths */
+  .zone-factory-clip {
+    clip-path: polygon(0 5%, 100% 0, 100% 95%, 5% 100%);
+  }
+  .zone-underground-clip {
+    clip-path: polygon(0 15%, 100% 0, 92% 100%, 8% 85%);
+  }
+  .zone-rich-clip {
+    border-radius: 40px 8px 30px 8px;
+  }
+
+  /* Lockdown overlay */
+  .lockdown-title {
+    font-family: 'Orbitron', monospace;
+    font-size: 36px;
+    font-weight: 900;
+    color: #ff2244;
+    letter-spacing: 8px;
+    text-shadow: 0 0 30px #ff2244;
+    animation: flicker 0.2s infinite alternate;
+  }
+}
+
+/* Keyframes needed for JS-driven inline styles */
+@keyframes crit-flash {
+  0% { background: rgba(255,34,68,0.05); border-color: #ff2244; }
+  100% { background: rgba(255,34,68,0.15); border-color: rgba(255,34,68,0.5); }
+}
+
+@keyframes flicker {
+  0% { opacity: 1; }
+  100% { opacity: 0.8; }
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.3; }
+}
+
+@keyframes lamp-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.6; }
+}
+
+@keyframes cam-sweep {
+  0% { transform: rotate(-18deg); }
+  50% { transform: rotate(18deg); }
+  100% { transform: rotate(-18deg); }
+}
+
+@keyframes wifi-ring {
+  0% { opacity: 0.8; stroke-dashoffset: 0; }
+  100% { opacity: 0; stroke-dashoffset: -60; }
+}
+
+@keyframes crosshair-spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+@keyframes gun-recoil {
+  0%, 100% { transform: translateX(0); }
+  50% { transform: translateX(2px); }
+}
+
+@keyframes radar-expand {
+  0% { width: 0; height: 0; opacity: 0.8; }
+  100% { width: 400px; height: 400px; opacity: 0; }
+}
+
+@keyframes sweep {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes pulse-border {
+  0%, 100% { box-shadow: 0 0 8px #00d4ff; }
+  50% { box-shadow: 0 0 20px #00d4ff, 0 0 40px rgba(0,212,255,0.3); }
+}
+
+@keyframes inner-pulse {
+  0%, 100% { opacity: 0.1; }
+  50% { opacity: 0.3; }
+}
+
+/* WiFi ring animation applied via class */
+.wifi-ring-anim-1 { animation: wifi-ring 1s ease-out infinite; }
+.wifi-ring-anim-2 { animation: wifi-ring 1.4s ease-out infinite 0.3s; }
+.wifi-ring-anim-3 { animation: wifi-ring 1.8s ease-out infinite 0.6s; }
